@@ -1,0 +1,41 @@
+# Site settings
+title:       Barryvdh Blog
+email:       barryvdh@gmail.com
+author:      Barry vd. Heuvel
+description: "My personal blog about PHP, Laravel and other coding stuff."
+baseurl:     ""
+url:         "http://barryvdh.github.io"
+
+# Google analytics
+google_analytics:
+
+# Optional features
+animated:           false
+show_related_posts: false
+show_post_footers:  false
+
+# Disqus post comments
+# (leave blank to disable Disqus)
+disqus_shortname:
+
+# Social icons
+show_social_icons: false
+github_username:
+stackoverflow_id:
+twitter_username:
+google_plus_id:
+linkedin_username:
+bitcoin_url:
+paypal_url:
+flattr_button:
+
+# Build settings
+markdown:     kramdown
+redcarpet:
+  extensions: ['smart', 'tables', 'with_toc_data']
+permalink:    pretty
+paginate:     3
+sass:
+  compressed: true
+gems:
+  - jekyll-sitemap
