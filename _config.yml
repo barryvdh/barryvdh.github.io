@@ -1,5 +1,5 @@
 # Site settings
-title:       Barryvdh Blog
+title:       Barry vd. Heuvel
 email:       barryvdh@gmail.com
 author:      Barry vd. Heuvel
 description: "My personal blog about PHP, Laravel and other coding stuff."
@@ -11,8 +11,8 @@ google_analytics:
 
 # Optional features
 animated:           false
-show_related_posts: false
-show_post_footers:  false
+show_related_posts: true
+show_post_footers:  true
 
 # Disqus post comments
 # (leave blank to disable Disqus)
