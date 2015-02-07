@@ -13,18 +13,19 @@ google_analytics:
 animated:           false
 show_related_posts: true
 show_post_footers:  true
+show_social_icons:  true
 
 # Disqus post comments
 # (leave blank to disable Disqus)
 disqus_shortname:
 
 # Social icons
-show_social_icons: false
-github_username:
-stackoverflow_id:
-twitter_username:
-google_plus_id:
-linkedin_username:
+show_social_icons: true
+github_username: barryvdh
+stackoverflow_id: 444215
+twitter_username: barryvdh
+google_plus_id: 112895705561647874795
+linkedin_username: barryvdheuvel
 bitcoin_url:
 paypal_url:
 flattr_button:
