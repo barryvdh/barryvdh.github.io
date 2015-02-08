@@ -2,8 +2,8 @@
 layout:     post
 title:      Streaming large CSV files with Laravel chunked queries
 date:       2015-02-07 22:12:29
-summary:    
-categories: laravel php
+summary:    How do you handle exporting a large dataset to the user? This post explains Symfony's StreamedResponse and Laravel's chunked queries
+categories: laravel
 ---
 
 ### Exporting data
