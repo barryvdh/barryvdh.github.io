@@ -4,7 +4,7 @@ email:       barryvdh@gmail.com
 author:      Barry vd. Heuvel
 description: "My personal blog about PHP, Laravel and other coding stuff."
 baseurl:     ""
-url:         "http://barryvdh.github.io"
+url:         "http://barryvdh.nl"
 
 # Google analytics
 google_analytics:
@@ -13,14 +13,13 @@ google_analytics:
 animated:           false
 show_related_posts: false
 show_post_footers:  true
-show_social_icons:  true
+show_social_icons:  false
 
 # Disqus post comments
 # (leave blank to disable Disqus)
 disqus_shortname:
 
 # Social icons
-show_social_icons: true
 github_username: barryvdh
 stackoverflow_id: 444215
 twitter_username: barryvdh
