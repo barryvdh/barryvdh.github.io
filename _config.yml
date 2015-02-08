@@ -7,7 +7,7 @@ baseurl:     ""
 url:         "http://barryvdh.nl"
 
 # Google analytics
-google_analytics:
+google_analytics: UA-9001667-40
 
 # Optional features
 animated:           false
