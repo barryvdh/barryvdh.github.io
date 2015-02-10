@@ -33,8 +33,6 @@ flattr_button:
 markdown:     kramdown
 kramdown:
   input: GFM
-redcarpet:
-  extensions: ["no_intra_emphasis", "fenced_code_blocks", "autolink", "strikethrough", "superscript", "smart", "tables", "with_toc_data"]
 permalink:    pretty
 paginate:     3
 sass:
