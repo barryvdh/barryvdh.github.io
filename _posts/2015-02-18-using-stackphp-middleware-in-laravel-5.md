@@ -6,6 +6,8 @@ excerpt:    Laravel 4 was compatible with StackPHP middleware, but Laravel 5 use
 categories: laravel
 ---
 
+__TLDR__; Want StackPHP middleware in Laravel 5.0? Try https://github.com/barryvdh/laravel-stack-middleware
+
 ### Middleware and Laravel 4
 
 In version 4.1, Laravel introduced compatibility with [StackPHP middleware](http://stackphp.com/). As Laravel uses the Symfony [HttpFoundation](http://symfony.com/doc/current/components/http_foundation) and the Application class implements the [HttpKernelInterface](https://github.com/symfony/symfony/blob/master/src/Symfony/Component/HttpKernel/HttpKernelInterface.php), it made sense to support this. This made it easy to use middlewares from StackPHP, just like in Symfony/Silex or other frameworks using the HttpKernelInterface. See [this article from Chris Fidao](http://fideloper.com/laravel-http-middleware) for more information.
@@ -71,6 +73,8 @@ public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQ
 }
 ```
 
+### laravel-stack-middleware Package
+
 So, to solve the chicken-egg question, I created two wrappers. The [ClosureMiddleware](https://github.com/barryvdh/laravel-stack-middleware/blob/master/src/ClosureMiddleware.php) that receives the `$next` closure and passes it to the  [ClosureHttpKernel](https://github.com/barryvdh/laravel-stack-middleware/blob/master/src/ClosureHttpKernel.php). The Kernel then receives the `$request` on its `handle()` method and calls the `$next` closure it just received. So we just do something like this:
 
 ```php
@@ -79,8 +83,9 @@ $stackMiddleware = new Some\Stack\Middleware($kernel, $param1, $param2);
 $middleware = new ClosureMiddleware($kernel, $stackMiddleware);
 ```
 
-That all sounds a bit cumbersome so I've create a simple package for it: https://github.com/barryvdh/laravel-stack-middleware
-It's still pretty new and not very well tested, but it does seem to do its job. The readme explains more, but the previous example would become:
+That all sounds a bit cumbersome so I've create a simple package for it: [barryvdh/laravel-stack-middleware](https://github.com/barryvdh/laravel-stack-middleware)
+It's still pretty new and not very well tested, but it does seem to do its job. I've also used this in my [HttpCache package](https://github.com/barryvdh/laravel-httpcache) to wrap the Symfony HttpCache middleware.
+The readme explains more, but the previous example would become:
 
 ```php
 public function boot(StackMiddleware $stack) {
