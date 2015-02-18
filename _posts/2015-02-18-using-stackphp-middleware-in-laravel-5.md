@@ -71,7 +71,7 @@ public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQ
 }
 ```
 
-So, to solve the chicken-egg question, we have two wrappers. The [Laravel middleware](https://github.com/barryvdh/laravel-stack-middleware/blob/master/src/ClosureMiddleware.php) that receives the `$next` closure and passes it to [Kernel](https://github.com/barryvdh/laravel-stack-middleware/blob/master/src/ClosureHttpKernel.php). The Kernel then receives the `$request` on its `handle()` method and calls the `$next` closure it just received. So we just do something like this:
+So, to solve the chicken-egg question, I created two wrappers. The [ClosureMiddleware](https://github.com/barryvdh/laravel-stack-middleware/blob/master/src/ClosureMiddleware.php) that receives the `$next` closure and passes it to the  [ClosureHttpKernel](https://github.com/barryvdh/laravel-stack-middleware/blob/master/src/ClosureHttpKernel.php). The Kernel then receives the `$request` on its `handle()` method and calls the `$next` closure it just received. So we just do something like this:
 
 ```php
 $kernel = new ClosureHttpKernel();
@@ -90,8 +90,10 @@ public function boot(StackMiddleware $stack) {
 
 That binds a new Middleware to the App container under the name `DoSomeMiddlewareStuff` so you can add it to your $middleware array in your app Kernel.php
 
-### Way forward?
+### Way forward
 
 So Taylor probably had good reasons to change to this new middleware style (less dependend on HttpFoundation?) but you still need to make some assumptions about what kind of Request or Response everyone is expecting. Hopefully [PSR-7 will bring a unified standard for this](https://mwop.net/blog/2015-01-08-on-http-middleware-and-psr-7.html), so middlewares can be easily shared between frameworks. As long as we follow the same principles and request object, it hopefully shouldn't be too hard to make it compatible with different frameworks..
+
+### Comments?
 
 If you think I'm saying/doing something wrong here or with my wrapper for StackPHP middleware, please let me know! You can leave me a comment on Twitter or create an issue in the [laravel-stack-middleware repo](https://github.com/barryvdh/laravel-stack-middleware/issues) or the [issue tracker from my blog](https://github.com/barryvdh/barryvdh.github.io/issues).
