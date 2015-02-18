@@ -6,7 +6,7 @@ excerpt:    Laravel 4 was compatible with StackPHP middleware, but Laravel 5 use
 categories: laravel
 ---
 
-__TLDR__; Want StackPHP middleware in Laravel 5.0? Try https://github.com/barryvdh/laravel-stack-middleware
+__TLDR__; Want StackPHP middleware in Laravel 5.0? Try [barryvdh/laravel-stack-middleware](https://github.com/barryvdh/laravel-stack-middleware)
 
 ### Middleware and Laravel 4
 
