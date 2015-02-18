@@ -4,4 +4,4 @@ title: Contact
 permalink: /contact/
 ---
 
-You can find my e-mail on Github, or you can contact me on Twitter: @barryvdh
+If you like to contact me, feel free to send me an email or send me a message on Twitter: [@barryvdh](https://twitter.com/barryvdh)
