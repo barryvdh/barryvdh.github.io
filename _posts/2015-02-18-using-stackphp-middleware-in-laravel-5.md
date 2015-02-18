@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      Using StackPHP middleware in Laravel 5
+title:      Using StackPHP middleware in Laravel5
 date:       2015-02-18 20:57:00
 excerpt:    Laravel 4 was compatible with StackPHP middleware, but Laravel 5 uses a new way to handle middleware. This blog explains the differences and shows a way to still use Stack middleware.
 categories: laravel
