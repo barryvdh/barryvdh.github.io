@@ -78,6 +78,19 @@ public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQ
 So, to solve the chicken-egg question, I created two wrappers. The [ClosureMiddleware](https://github.com/barryvdh/laravel-stack-middleware/blob/master/src/ClosureMiddleware.php) that receives the `$next` closure and passes it to the  [ClosureHttpKernel](https://github.com/barryvdh/laravel-stack-middleware/blob/master/src/ClosureHttpKernel.php). The Kernel then receives the `$request` on its `handle()` method and calls the `$next` closure it just received. So we just do something like this:
 
 ```php
+// ClosureMiddleware
+public function handle($request, Closure $next) {
+    $this->kernel->setClosure($next);
+    return $this->middleware->handle($request);
+}
+
+// ClosureHttpKernel
+public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true) {
+    $closure = $this->closure;
+    return $closure($request);
+}
+
+// Wrapping it up together
 $kernel = new ClosureHttpKernel();
 $stackMiddleware = new Some\Stack\Middleware($kernel, $param1, $param2);
 $middleware = new ClosureMiddleware($kernel, $stackMiddleware);
