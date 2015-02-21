@@ -175,6 +175,14 @@ table {
   border-radius: 50%;
 }
 
+.post-share .share-button {
+  float: left;
+
+  &.share-button-twitter {
+    margin-top: 4px;
+  }
+}
+
 .pagination,
 .button {
   font-size: 1rem;

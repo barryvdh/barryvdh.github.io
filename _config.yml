@@ -13,6 +13,7 @@ google_analytics: UA-9001667-40
 animated:           false
 show_related_posts: false
 show_post_footers:  true
+show_post_share:    true
 show_social_icons:  true
 
 # Disqus post comments

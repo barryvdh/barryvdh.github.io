@@ -19,6 +19,10 @@ layout: default
   {{ content }}
 </article>
 
+{% if site.show_post_share %}
+  {% include post_share.html %}
+{% endif %}
+
 {% if site.show_post_footers %}
   {% include post_footer.html %}
 {% endif %}
