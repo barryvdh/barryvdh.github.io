@@ -54,7 +54,7 @@ public function handle($request, Closure $next)
 
 So sure, it's possible to convert your middleware. And that is probably the easiest solution when you are upgrading. But what about the [middlewares from StackPHP](http://stackphp.com/middlewares/)? For example, there are some simple ones that just add some headers but some (like HttpCache) are a bit more complex. And the idea of StackPHP was to be able to share your middleware, not re-invent the wheel. So, how to use them in Laravel 5?
 
-Obviously, the two interfaces are conflicting. Both use the `handle()` method but with different arguments. So we could create a Laravel middleware that wrap the Stack middleware and calls its `handle()` method with the correct arguments.
+Obviously, the two interfaces are conflicting. Both use the `handle()` method but with different arguments. So we could create a Laravel middleware that wraps the Stack middleware and calls its `handle()` method with the correct arguments.
 
 ```php
 public function handle($request, Closure $next)
@@ -63,7 +63,7 @@ public function handle($request, Closure $next)
 }
 ```
 
-But any Stack middleware needs a HttpKernel as first constructor argument (by convention), so what do we pass as kernel? The Laravel Application class still implements the HttpKernelInterface, but that just call the middleware stack so will crash your application. So we also need to create a wrapper for the HttpKernelInterface. And that wrapper needs to be able to call the `$next` closure.
+But any Stack middleware needs a HttpKernel as first constructor argument (by convention), so what do we pass as kernel? The Laravel Application class still implements the HttpKernelInterface, but that just calls the middleware stack so that will crash your application. So we also need to create a wrapper for the HttpKernelInterface. And that wrapper needs to be able to call the `$next` closure.
 
 ```php
 public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
