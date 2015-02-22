@@ -57,7 +57,8 @@ You can find more information in the [PHP RFC for timing attacks](https://wiki.p
 ```php
 use Symfony\Component\Security\Core\Util\StringUtils;
 Route::filter('csrf', function() {
-	if ( ! StringUtils::equals(Session::token(), Input::get('_token')))	{
+	if ( ! StringUtils::equals(Session::token(), Input::get('_token')))
+	{
 		throw new Illuminate\Session\TokenMismatchException;
 	}
 });
@@ -82,7 +83,9 @@ This makes the CSRF check a lot more flexible. You don't have to remember where 
 At first, only the `X-XSRF-TOKEN` was checked. This used the [Angular convention](https://docs.angularjs.org/api/ng/service/$http#cross-site-request-forgery-xsrf-protection) that the token could be read from the `XSRF-TOKEN` cookie. If Angular detects that cookie, it [adds the token to all XHR requests](https://github.com/angular/angular.js/blob/5da1256fc2812d5b28fb0af0de81256054856369/src/ng/http.js#L1072).
 
 ```Javascript
-var xsrfValue = urlIsSameOrigin(config.url) ? $browser.cookies()['XSRF-TOKEN'] : undefined;
+var xsrfValue = urlIsSameOrigin(config.url)
+    ? $browser.cookies()['XSRF-TOKEN']
+    : undefined;
 if (xsrfValue) {
   reqHeaders['X-XSRF-TOKEN'] = xsrfValue;
 }
