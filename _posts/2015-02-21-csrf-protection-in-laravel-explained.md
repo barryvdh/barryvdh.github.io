@@ -10,17 +10,17 @@ In this blog we take a closer look into CSRF protection in Laravel. We compare t
 
 ## Why do we need CSRF protection?
 
-Laravel has CSRF-protection enabled by default. So even if you don't know what CSRF is, or why we need to protect our apps from it, you probably run in to it pretty fast and realize you have to add that hidden `_token` field with the `csrf_token()` value..
+Laravel has CSRF-protection enabled by default. So even if you don't know what CSRF is, or why you need to protect your apps from it, you'll probably run in to an `Illuminate\Session\TokenMismatchException` pretty fast and realize you have to add that hidden `_token` field with the `csrf_token()` value..
 
-But not everybody knows exactly what it protects your app from. So if you don't, go read [this article from ircmaxell](http://blog.ircmaxell.com/2013/02/preventing-csrf-attacks.html). Here is a short excerpt:
+But not everybody knows exactly what it protects your app from. So if you don't, go read [this article from Anthony Ferrara  (ircmaxell)](http://blog.ircmaxell.com/2013/02/preventing-csrf-attacks.html). Here is a short excerpt:
 
 > __Request Forgery. [..] From Another Site__: This happens when an attacker on another site (one they have control over) submits a request to the target site. The browser will send cookies to the target site, so if a user has permissions on the remote site, the action will be performed. No defense that we mentioned so far will effectively protect against this. Because it requires two sites to execute, it's called a Cross-Site-Request-Forgery (CSRF).
 
 So for example, if you are logged in on Facebook, a hacked site could run some Javascript to make you post something under your Facebook account. Of course we don't want that to happen, so we need protection for it. And here is where the CSRF Middleware helps us.
 
-Because of the [Same-Origin security policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy#Cross-origin_network_access) in browsers, you can't read from different domain, but writes can be executed. So even though the attacker doesn't get the response, the request is still executed.
+Because of the [Same-Origin security policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy#Cross-origin_network_access) in browsers, javascript cannot read responses from a different domain, but write requests can be executed. So even though the attacker doesn't get the response, the request is still executed.
 
-A common solution is to add a CSRF token to our form, which is generated on each request and validated on POST/PUT/DELETE requests. Because the tokken cannot be read, attackers can't make those requests any more.
+A common solution is to add a CSRF token to our form, which is generated on each request and validated on POST/PUT/DELETE requests. Because the token cannot be read, attackers can't make those requests any more.
 
 ## CSRF in Laravel
 
@@ -39,11 +39,11 @@ This wasn't applied by default, but you could easily add this to the routes you 
 ### Strict typing
 > [blog.laravel.com](http://blog.laravel.com/csrf-vulnerability-in-laravel-4/): Note that the token comparison has been changed from a != comparison to a !== comparison. This will prevent specially crafted JSON requests from bypassing the filter.
 
-Because of the weak-typing and using json_decode for JSON request, you could pass `{'_token':true}` as JSON data, and it would still match. That's a pretty easy (but important!) fix, but as [lasselehtinen and ircmaxell noted](https://github.com/laravel/laravel/commit/ba0cf2a1c9280e99d39aad5d4d686d554941eea1), it's still not perfect.
+Because of the weak-typing and using `json_decode()` for JSON requests, you could pass `{'_token':true}` as JSON data and it would still match. That's a pretty easy (but important!) fix, but as [lasselehtinen and ircmaxell noted](https://github.com/laravel/laravel/commit/ba0cf2a1c9280e99d39aad5d4d686d554941eea1), it's still not perfect.
 
 ### Timing safe comparison
 
-While a timing attack for CSRF tokens is probably more theoretical, it would be possible for attackers to guess the token by repeating the same request many times, and comparing the time it takes to return. Because a regular string comparison stops when it finds a character that doesn't match, you could find a difference between different tokens. Very simplified:
+While a timing attack for CSRF tokens is probably more theoretical, it would be possible for attackers to guess the token by repeating the same request many times and comparing the time it takes to return. Because a regular string comparison stops when it finds a character that doesn't match, you could find a difference between different tokens. Very simplified example:
 
 ```php
 $token = 'abcdef';
@@ -75,9 +75,18 @@ Laravel 5 enables the [VerifyCsrfToken middleware](https://github.com/laravel/fr
 
 This makes the CSRF check a lot more flexible. You don't have to remember where to add you filters, just make sure that every form has a `_token` field. Because of #2 and #3, it will work with Ajax request without having to modify the core filter.
 
+> Note: This reminds us again that GET requests should never change state. The CSRF middleware assumes that it doesn't need to check GET (or HEAD/OPTIONS) requests, because they should be safe to execute.
+
 ### Checking the headers
 
-At first, only the `X-XSRF-TOKEN` was checked. This used the [Angular convention](https://docs.angularjs.org/api/ng/service/$http#cross-site-request-forgery-xsrf-protection) that the token could be read from the `XSRF-TOKEN` cookie. If Angular detects that cookie, it adds the token to all XHR requests.
+At first, only the `X-XSRF-TOKEN` was checked. This used the [Angular convention](https://docs.angularjs.org/api/ng/service/$http#cross-site-request-forgery-xsrf-protection) that the token could be read from the `XSRF-TOKEN` cookie. If Angular detects that cookie, it [adds the token to all XHR requests](https://github.com/angular/angular.js/blob/5da1256fc2812d5b28fb0af0de81256054856369/src/ng/http.js#L1072).
+
+```Javascript
+var xsrfValue = urlIsSameOrigin(config.url) ? $browser.cookies()['XSRF-TOKEN'] : undefined;
+if (xsrfValue) {
+  reqHeaders['X-XSRF-TOKEN'] = xsrfValue;
+}
+```
 
 While this does work great for Angular, it has a slight problem: Because the cookies in Laravel are always encrypted, the token from the cookie needs to be decrypted before it can be compared. This is not a problem for Angular, but it is a problem if you want to set the header manually for your own Javascript requests.
 
@@ -111,6 +120,7 @@ This will set the token header for all your jQuery requests. [jQuery UJS](https:
 ### Modifying the middleware
 
 I would suggest that you try to avoid writing your own logic for the CSRF handler. As you can see above, there are a lot of things to consider. If some bug is found with the VerifyCsrfToken middleware, it can now be fixed upstream. If you have your own filter, like in Laravel 4, it won't be updated automatically.. But since [this commit to laravel/laravel](https://github.com/laravel/laravel/commit/c3e3d9dc4b8a4f6f52f1f89233f2a1d19011fc24), you can easily override certain methods in your own app.
+I you don't want to use CSRF at all, you can still just remove the VerifyCsrfToken from your middleware list.
 
 ### Comments?
 
