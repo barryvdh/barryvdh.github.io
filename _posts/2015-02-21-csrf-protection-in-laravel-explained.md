@@ -18,7 +18,7 @@ But not everybody knows exactly what it protects your app from. So if you don't,
 
 So for example, if you are logged in on Facebook, a hacked site could run some Javascript to make you post something under your Facebook account. Of course we don't want that to happen, so we need protection for it. And here is where the CSRF Middleware helps us.
 
-Because of the [Same-Origin security policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy#Cross-origin_network_access) in browsers, javascript cannot read responses from a different domain, but write requests can be executed. So even though the attacker doesn't get the response, the request is still executed.
+Because of the [Same-Origin security policy](https://developer.mozilla.org/en-US/docs/Web/Security/Same-origin_policy#Cross-origin_network_access) in browsers, JavaScript cannot read responses from a different domain, but write requests can be executed. So even though the attacker doesn't get the response, the request is still executed.
 
 A common solution is to add a CSRF token to our form, which is generated on each request and validated on POST/PUT/DELETE requests. Because the token cannot be read, attackers can't make those requests any more.
 
@@ -34,7 +34,7 @@ Route::filter('csrf', function() {
 });
 ```
 
-This wasn't applied by default, but you could easily add this to the routes you want to protect. But what was wrong with this? 
+This wasn't applied by default, but you could easily add this to the routes you want to protect. But what was wrong with this?
 
 ### Strict typing
 > [blog.laravel.com](http://blog.laravel.com/csrf-vulnerability-in-laravel-4/): Note that the token comparison has been changed from a != comparison to a !== comparison. This will prevent specially crafted JSON requests from bypassing the filter.
@@ -91,7 +91,7 @@ if (xsrfValue) {
 }
 ```
 
-While this does work great for Angular, it has a slight problem: Because the cookies in Laravel are always encrypted, the token from the cookie needs to be decrypted before it can be compared. This is not a problem for Angular, but it is a problem if you want to set the header manually for your own Javascript requests.
+While this does work great for Angular, it has a slight problem: Because the cookies in Laravel are always encrypted, the token from the cookie needs to be decrypted before it can be compared. This is not a problem for Angular, but it is a problem if you want to set the header manually for your own JavaScript requests.
 
 In Laravel 5.0.6, [a patch landed](https://github.com/laravel/framework/pull/7528) which added support for a plain text `X-CSRF-TOKEN` header.
 
