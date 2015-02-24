@@ -34,8 +34,6 @@ flattr_button:
 markdown:     kramdown
 kramdown:
   input: GFM
-highlighter: pygments
-  options: ['startinline']
 permalink:    pretty
 paginate:     5
 sass:
