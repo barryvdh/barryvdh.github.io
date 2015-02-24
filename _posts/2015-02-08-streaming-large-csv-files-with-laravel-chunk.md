@@ -12,6 +12,7 @@ When I create websites to manage data, like users, items, products etc., a commo
 Luckily exporting data in PHP is pretty simple, especially if you just create a CSV file. Just look at the example from [fputcsv on php.net](http://php.net/manual/en/function.fputcsv.php):
 
 ```php
+<?php
 $out = fopen('php://output', 'w');
 fputcsv($out, array('this','is some', 'csv "stuff", you know.'));
 fclose($out);
@@ -21,6 +22,7 @@ fclose($out);
 But in Laravel (or any other frameworks that uses Response objects), you don't want to just write to the output stream. You want to create a proper Response object, add some headers, run it through your middleware stack etc etc. Luckily the Symfony HttpFoundation (which is used in Laravel) provides a [StreamdResponse](http://symfony.com/doc/current/components/http_foundation/introduction.html#streaming-a-response), which would be something like this:
 
 ```php
+<?php
 use Symfony\Component\HttpFoundation\StreamedResponse;
 
 $response = new StreamedResponse();
@@ -35,6 +37,7 @@ $response->send();
 The CSV isn't actually outputted until `send()` is called (which is done automatically later on by Laravel) and you can add headers if you want. So let's create a basic example to output a CSV directly file directly to the browser:
 
 ```php
+<?php
     use Symfony\Component\HttpFoundation\StreamedResponse;
 
     Route::get('export', function(){
@@ -76,6 +79,7 @@ So this should force the download of a CSV file with your users.
 But what if you have thousands of rows in your database? The Streaming would work, but you can fill your memory up when you load all that data. Luckily Laravel provides the [`chunk()`](http://laravel.com/docs/5.0/queries#selects) method on its Query Builder. You can provide a number of rows to fetch at once, and a callback to run on the result. So we can replace the `User::all()` with the following:
 
 ```php
+<?php
     \User::chunk(500, function($users) use($handle) {
         foreach ($users as $user) {
             // Add a new row with data
