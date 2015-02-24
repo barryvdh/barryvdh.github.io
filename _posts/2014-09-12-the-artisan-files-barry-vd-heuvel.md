@@ -1,6 +1,6 @@
 ---
 layout:     post
-title:      The Artisan Files: Barry vd. Heuvel
+title:      The Artisan Files - Barry vd. Heuvel
 date:       2014-09-12 18:00:00
 excerpt:    Laravel News did an interview with me in its series 'The Artisan Files'. Follow the link to read the entire article!
 categories: general
