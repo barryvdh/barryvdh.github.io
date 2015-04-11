@@ -9,7 +9,7 @@ categories: laravel jquery
 [jquery-ujs](https://github.com/rails/jquery-ujs) is a script, originally created for Ruby on Rails, to simplify common actions and make it easier to use resourceful routes. Even though it was created for Rails, it works perfectly with Laravel. It is described like this on the readme:
  
 > This unobtrusive scripting support file is developed for the Ruby on Rails framework, but is not strictly tied to any specific backend. You can drop this into any application to:
-
+>
 > - force confirmation dialogs for various actions;
 > - make non-GET requests from hyperlinks;
 > - make forms or hyperlinks submit data asynchronously with Ajax;
@@ -21,7 +21,7 @@ As many of you probably realized, Laravel took some inspiration from Rails and t
 `jquery-ujs` presents itself as 'unobtrusive'. From the previously linked article:
 
 > The UJS in jquery-ujs stands for [unobtrusive JavaScript](http://en.wikipedia.org/wiki/Unobtrusive_JavaScript). This is a rather broad term that generally refers to using JavaScript to progressively enhance the user experience for capable browsers without negatively impacting clients that do not support or do not enable JavaScript.
-
+>
 > jquery-ujs wires event handlers to eligible DOM elements to provide enhanced functionality. In most cases, the eligible DOM elements are identified by [HTML5 data attributes](http://ejohn.org/blog/html-5-data-attributes/).
 
 Most of the `jquery-ujs` functionality works by just adding a `data-*` attribute to an element. This means that for a lot of features, you don't have to register any bindings in jQuery itself.
@@ -38,6 +38,7 @@ In [my last blog post](http://barryvdh.nl/laravel/2015/02/21/csrf-protection-in-
 ```
 
 This will set a `X-CSRF-Token` header on each XHR-request (for `data-remote`) and add a hidden `_token` field for the `data-method` requests.
+
 ### Examples
 Many examples are given in the [wiki from the repository](https://github.com/rails/jquery-ujs/wiki/Unobtrusive-scripting-support-for-jQuery). A few highlights:
 
@@ -69,8 +70,8 @@ With the `data-remote` option you can make a form (or link) perform it's action 
 
 ```
  <form data-remote="true" action="...">
-      ...
-    </form>
+   ...
+ </form>
 ```
 
 If you want to handle the output, you can attach listen to [custom events](https://github.com/rails/jquery-ujs/wiki/ajax). Within Laravel, you can detect whether it's a regular or XHR request.
