@@ -2,11 +2,11 @@
 layout:     post
 title:      Unobtrusive JavaScript with jquery-ujs and Laravel
 date:       2015-04-11 16:45:00
-excerpt:    This blogs explains how you can simplify common JavaScript actions using jquery-ujs with Laravel, just like it's used in Ruby on Rails.
+excerpt:    This blogs explains how you can simplify common JavaScript actions and make it easier to execute RESTful actions through links using jquery-ujs with Laravel, just like it's used in Ruby on Rails.
 categories: laravel jquery
 ---
 
-[jquery-ujs](https://github.com/rails/jquery-ujs) is a script, originally created for Ruby on Rails, to simplify common JavaScript actions and make it easier to execute resourceful actions through links. Even though it was created for Rails, it works perfectly with Laravel. It is described like this on the readme:
+[jquery-ujs](https://github.com/rails/jquery-ujs) is a script, originally created for Ruby on Rails, to simplify common JavaScript actions and make it easier to execute RESTful actions through links. Even though it was created for Rails, it works perfectly with Laravel. It is described like this on the readme:
  
 > This unobtrusive scripting support file is developed for the Ruby on Rails framework, but is not strictly tied to any specific backend. You can drop this into any application to:
 >
@@ -59,7 +59,7 @@ When you need to perform an action and the response take a little while, users m
 ```
 
 #### POST/PUT/DELETE through links
-As you probably know, Laravel uses a `DELETE` request to perform the `destroy()` method on the resource controller. This usually means you have to create a form with a hidden `_method` field set to `DELETE`. With jquery-ujs you can simply create a link with a `data-method` attribute. This get's transformed into a `DELETE` request by jquery-ujs automatically.
+As you probably know, Laravel uses a `DELETE` request to perform the `destroy()` method on the RESTful resource controller. This usually means you have to create a form with a hidden `_method` field set to `DELETE`. With jquery-ujs you can simply create a link with a `data-method` attribute. This get's transformed into a `DELETE` request by jquery-ujs automatically.
 
 ```html
 <a href="..." data-method="delete" rel="nofollow">Delete this entry</a>
@@ -80,7 +80,7 @@ If you want to handle the output, you can attach listen to [custom events](https
 
 ### Real example with Laravel
 
-A common action for an admin interface or CRUD-apps, is deleting an item from a row. You shouldn't ever use a `GET` request for this, so a `DELETE` (or common `POST` if you like) would be better. So normally you would create a form with `DELETE` action and a submit button for each row and redirect the user back after the resource is deleted. Or you create you own JavaScript bindings to perform the `DELETE` request. 
+A common action for an admin interface or CRUD-apps, is deleting an item from a row. You shouldn't ever use a `GET` request to delete items, so a `DELETE` (or common `POST` if you like) would be better. Normally you would probably create a form with `DELETE` action and a submit button for each row and redirect the user back after the resource is deleted. Or you create you own JavaScript bindings to perform the `DELETE` request. 
 
 With jquery-ujs it's easy to replace the form with a link, but you can also remove the entire row after deletion. Just add the link to each row (assuming we placing this in a table). We also add the confirm message to make sure you delete the right item.
 
@@ -92,7 +92,7 @@ With jquery-ujs it's easy to replace the form with a link, but you can also remo
 </a>
 ```
 
-In the controller action (`destroy()` in the case of resourceful controllers), we can check if it was a regular request or a Ajax request and respond differently.
+In the controller action (`destroy()` in the case of RESTful resourceful controllers), we can check if it was a regular request or a Ajax request and respond differently.
 
 ```php
 public function destroy(Request $request, $id) {
@@ -115,5 +115,5 @@ $('.destroy-btn').bind('ajax:success', function(e, data, status, xhr){
 For more options, like extra parameters, data type etc., see [the wiki](https://github.com/rails/jquery-ujs/wiki).
 
 ### That's about it
-I hope this gives you a good idea of how jquery-ujs could be useful for you. I use it in a lot of project to avoid having to write the same boilerplate javascript handlers and just because it's easy to use. If you have a better approach or other feedback, let me know!
+I hope this gives you a good idea of how jquery-ujs could be useful for you. I use it in a lot of project to avoid having to write the same boilerplate JavaScript handlers and just because it's easy to use. If you have a better approach or other feedback, please let me know!
 
