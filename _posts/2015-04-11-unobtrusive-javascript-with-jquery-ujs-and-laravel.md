@@ -103,11 +103,11 @@ public function destroy(Request $request, $id) {
 }
 ```
 
-And now we just add an event listener to the Ajax request to delete the row of the link that was just clicked.
+And now we just add an event listener to the Ajax request to remove the row of the link that was just clicked.
 
 ```javascript
 $('.destroy-btn').bind('ajax:success', function(e, data, status, xhr){
-    $(e.target).parents('tr').first().hide();
+    $(e.target).parents('tr').first().remove();
     console.log("Deleted resource #"+data);
 });
 ```
