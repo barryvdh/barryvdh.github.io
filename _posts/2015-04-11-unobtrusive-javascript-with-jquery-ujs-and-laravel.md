@@ -107,7 +107,7 @@ And now we just add an event listener to the Ajax request to remove the row of t
 
 ```javascript
 $('.destroy-btn').bind('ajax:success', function(e, data, status, xhr){
-    $(e.target).parents('tr').first().remove();
+    $(e.target).closest('tr').remove();
     console.log("Deleted resource #"+data);
 });
 ```
