@@ -26,16 +26,16 @@ So what are we going to use exactly?
  - [Satellizer](https://github.com/sahat/satellizer), the Angular library for OAuth + Token based authentication.
  - [Socialite](https://github.com/laravel/socialite), the 'official' library for OAuth in Laravel.
  
- ## The Flow
+## The Flow
  
- So what are we hoping to achieve? In my case:
+So what are we hoping to achieve? In my case:
  
-  - Should work on every device, so on a regular domain, but also on a hybrid Android/iOS app (using Cordova)
-  - Use both OAuth 1 (Twitter) and OAuth 2 (Facebook/LinkedIn etc)
-  - Get profile information from Socialite.
-  - Authenticate users using JWT (JSON Web Tokens)
-  
- Luckily Satellizer provides us some info about how this should work with [OAuth1](https://github.com/sahat/satellizer/wiki/Login-with-OAuth-1.0) and [OAuth2](https://github.com/sahat/satellizer/wiki/Login-with-OAuth-2.0):
+ - Should work on every device, so on a regular domain, but also on a hybrid Android/iOS app (using Cordova)
+ - Use both OAuth 1 (Twitter) and OAuth 2 (Facebook/LinkedIn etc)
+ - Get profile information from Socialite.
+ - Authenticate users using JWT (JSON Web Tokens)
+ 
+Luckily Satellizer provides us some info about how this should work with [OAuth1](https://github.com/sahat/satellizer/wiki/Login-with-OAuth-1.0) and [OAuth2](https://github.com/sahat/satellizer/wiki/Login-with-OAuth-2.0):
  
 For OAuth 2:
 
@@ -59,16 +59,16 @@ OAuth1 has some more steps, but you get the idea.
 
 It sounds a bit complex (well, at least that was what I thought the first time I read it..), but let's translate it for our use-case.
 
-1. Call `$auth.authenticate('google').then(successCallback)` and the popup opens.
-2. The end-user logs in using his Social account.
-3. The Social Network redirects to the URL you choose. The url should be the same as the domain your are on, otherwise you can't access the code parameter. So for Cordova apps, `http://localhost:3000` is fine. For apps on a 'real' domain, you can just use that. Just make sure it's an allowed url. So you _don't_ use the Laravel API url as redirectUri!
-4. Satellizer reads the code.
-5. A POST request with the Authorization code is sent to the Lumen API.
-6. Socialite exchanges the code for an access token.
-7. Socialite uses this token to get the profile data.
-8. Lumen either creates a new User or looks up the existing one (using the unique id of the profile)
-9. A JSON Web Token is returned to Satellizer.
-10. Satellizer stores the token for later use.
+1. Call `$auth.authenticate('google').then(successCallback)` in your **Angular app** and the popup opens.
+2. The **end-user** logs in using his Social account.
+3. The **Social provider** redirects to the URL you choose. The url should be the same as the domain your are on, otherwise you can't access the code parameter. So for Cordova apps, `http://localhost:3000` is fine. For apps on a 'real' domain, you can just use that. Just make sure it's an allowed url. So you _don't_ use the Laravel API url as redirectUri!
+4. **Satellizer** reads the code.
+5. A POST request with the Authorization code is sent to the **Lumen API**.
+6. **Socialite** exchanges the code for an access token.
+7. **Socialite** uses this token to get the profile data.
+8. **Lumen** either creates a new User or looks up the existing one (using the unique id of the profile)
+9. A JSON Web Token is returned to **Satellizer**.
+10. **Satellizer** stores the token for later use.
 
 This is actually much easier than it looks, because Satellizer and Socialite do all the heavy lifting. 
 
@@ -78,61 +78,61 @@ So how do we use Socialite to get the profile? Satellizer already has [an exampl
 
 ```php
  /**
-     * Login with GitHub.
-     */
-    public function github(Request $request)
+ * Login with GitHub.
+ */
+public function github(Request $request)
+{
+    $accessTokenUrl = 'https://github.com/login/oauth/access_token';
+    $userApiUrl = 'https://api.github.com/user';
+    $params = [
+        'code' => $request->input('code'),
+        'client_id' => $request->input('clientId'),
+        'client_secret' => Config::get('app.github_secret'),
+        'redirect_uri' => $request->input('redirectUri')
+    ];
+    $client = new GuzzleHttp\Client();
+    // Step 1. Exchange authorization code for access token.
+    $accessTokenResponse = $client->get($accessTokenUrl, ['query' => $params]);
+    $accessToken = array();
+    parse_str($accessTokenResponse->getBody(), $accessToken);
+    $headers = array('User-Agent' => 'Satellizer');
+    // Step 2. Retrieve profile information about the current user.
+    $userApiResponse = $client->get($userApiUrl, [
+        'headers' => $headers,
+        'query' => $accessToken
+    ]);
+    $profile = $userApiResponse->json();
+    // Step 3a. If user is already signed in then link accounts.
+    if ($request->header('Authorization'))
     {
-        $accessTokenUrl = 'https://github.com/login/oauth/access_token';
-        $userApiUrl = 'https://api.github.com/user';
-        $params = [
-            'code' => $request->input('code'),
-            'client_id' => $request->input('clientId'),
-            'client_secret' => Config::get('app.github_secret'),
-            'redirect_uri' => $request->input('redirectUri')
-        ];
-        $client = new GuzzleHttp\Client();
-        // Step 1. Exchange authorization code for access token.
-        $accessTokenResponse = $client->get($accessTokenUrl, ['query' => $params]);
-        $accessToken = array();
-        parse_str($accessTokenResponse->getBody(), $accessToken);
-        $headers = array('User-Agent' => 'Satellizer');
-        // Step 2. Retrieve profile information about the current user.
-        $userApiResponse = $client->get($userApiUrl, [
-            'headers' => $headers,
-            'query' => $accessToken
-        ]);
-        $profile = $userApiResponse->json();
-        // Step 3a. If user is already signed in then link accounts.
-        if ($request->header('Authorization'))
+        $user = User::where('github', '=', $profile['id']);
+        if ($user->first())
         {
-            $user = User::where('github', '=', $profile['id']);
-            if ($user->first())
-            {
-                return response()->json(['message' => 'There is already a GitHub account that belongs to you'], 409);
-            }
-            $token = explode(' ', $request->header('Authorization'))[1];
-            $payload = (array) JWT::decode($token, Config::get('app.token_secret'), array('HS256'));
-            $user = User::find($payload['sub']);
-            $user->github = $profile['id'];
-            $user->displayName = $user->displayName || $profile['name'];
-            $user->save();
-            return response()->json(['token' => $this->createToken($user)]);
+            return response()->json(['message' => 'There is already a GitHub account that belongs to you'], 409);
         }
-        // Step 3b. Create a new user account or return an existing one.
-        else
-        {
-            $user = User::where('github', '=', $profile['id']);
-            if ($user->first())
-            {
-                return response()->json(['token' => $this->createToken($user->first())]);
-            }
-            $user = new User;
-            $user->github = $profile['id'];
-            $user->displayName = $profile['name'];
-            $user->save();
-            return response()->json(['token' => $this->createToken($user)]);
-        }
+        $token = explode(' ', $request->header('Authorization'))[1];
+        $payload = (array) JWT::decode($token, Config::get('app.token_secret'), array('HS256'));
+        $user = User::find($payload['sub']);
+        $user->github = $profile['id'];
+        $user->displayName = $user->displayName || $profile['name'];
+        $user->save();
+        return response()->json(['token' => $this->createToken($user)]);
     }
+    // Step 3b. Create a new user account or return an existing one.
+    else
+    {
+        $user = User::where('github', '=', $profile['id']);
+        if ($user->first())
+        {
+            return response()->json(['token' => $this->createToken($user->first())]);
+        }
+        $user = new User;
+        $user->github = $profile['id'];
+        $user->displayName = $profile['name'];
+        $user->save();
+        return response()->json(['token' => $this->createToken($user)]);
+    }
+}
 ```
 
 So yeah, not very pretty when we have many providers. But we can see what it does:
