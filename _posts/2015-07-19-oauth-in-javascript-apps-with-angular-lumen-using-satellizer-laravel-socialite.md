@@ -21,7 +21,7 @@ And off course some basis Angular knowledge would come in handy when you're buil
 
 So what are we going to use exactly?
 
- - [Lumen](http://lumen.laravel.com/) a.k.a. Laravel Light, because we're just building an API and want more speed.
+ - [Lumen](http://lumen.laravel.com/) a.k.a. Laravel Light, because we're just building an API and want more speed. (But everything in this blog applies for Laravel also).
  - [Angular](https://angularjs.org/), the client-side framework we're using.
  - [Satellizer](https://github.com/sahat/satellizer), the Angular library for OAuth + Token based authentication.
  - [Socialite](https://github.com/laravel/socialite), the 'official' library for OAuth in Laravel.
@@ -35,9 +35,7 @@ So what are we hoping to achieve? In my case:
  - Get profile information from Socialite.
  - Authenticate users using JWT (JSON Web Tokens)
  
-Luckily Satellizer provides us some info about how this should work with [OAuth1](https://github.com/sahat/satellizer/wiki/Login-with-OAuth-1.0) and [OAuth2](https://github.com/sahat/satellizer/wiki/Login-with-OAuth-2.0):
- 
-For OAuth 2:
+Luckily Satellizer provides us some info about how this should work with [OAuth2](https://github.com/sahat/satellizer/wiki/Login-with-OAuth-2.0):
 
 1. **Client:** Open a popup window via `$auth.authenticate('provider name')`.
 2. **Client:** Sign in with that provider, if necessary, then authorize the application.
@@ -55,7 +53,7 @@ exists, grab the existing user, otherwise create a new user account.
 10. **Client:** Parse the token and save it to *Local Storage* for subsequent
 use after page reload.
 
-OAuth1 has some more steps, but you get the idea.
+[OAuth1](https://github.com/sahat/satellizer/wiki/Login-with-OAuth-1.0) has some more steps, but you get the idea.
 
 It sounds a bit complex (well, at least that was what I thought the first time I read it..), but let's translate it for our use-case.
 
@@ -84,24 +82,29 @@ public function github(Request $request)
 {
     $accessTokenUrl = 'https://github.com/login/oauth/access_token';
     $userApiUrl = 'https://api.github.com/user';
+    
     $params = [
         'code' => $request->input('code'),
         'client_id' => $request->input('clientId'),
         'client_secret' => Config::get('app.github_secret'),
         'redirect_uri' => $request->input('redirectUri')
     ];
+    
     $client = new GuzzleHttp\Client();
+    
     // Step 1. Exchange authorization code for access token.
     $accessTokenResponse = $client->get($accessTokenUrl, ['query' => $params]);
     $accessToken = array();
     parse_str($accessTokenResponse->getBody(), $accessToken);
     $headers = array('User-Agent' => 'Satellizer');
+    
     // Step 2. Retrieve profile information about the current user.
     $userApiResponse = $client->get($userApiUrl, [
         'headers' => $headers,
         'query' => $accessToken
     ]);
     $profile = $userApiResponse->json();
+    
     // Step 3a. If user is already signed in then link accounts.
     if ($request->header('Authorization'))
     {
@@ -110,12 +113,15 @@ public function github(Request $request)
         {
             return response()->json(['message' => 'There is already a GitHub account that belongs to you'], 409);
         }
+        
         $token = explode(' ', $request->header('Authorization'))[1];
         $payload = (array) JWT::decode($token, Config::get('app.token_secret'), array('HS256'));
+        
         $user = User::find($payload['sub']);
         $user->github = $profile['id'];
         $user->displayName = $user->displayName || $profile['name'];
         $user->save();
+        
         return response()->json(['token' => $this->createToken($user)]);
     }
     // Step 3b. Create a new user account or return an existing one.
@@ -126,10 +132,12 @@ public function github(Request $request)
         {
             return response()->json(['token' => $this->createToken($user->first())]);
         }
+        
         $user = new User;
         $user->github = $profile['id'];
         $user->displayName = $profile['name'];
         $user->save();
+        
         return response()->json(['token' => $this->createToken($user)]);
     }
 }
@@ -196,7 +204,8 @@ So, as you see in the example, we're calling `$this->createToken($user)` to crea
 
 It's actually pretty simple, something like this:
 
-```/**
+```php
+/**
  * Generate JSON Web Token.
  * @param  User  $user
  * @return string
@@ -213,9 +222,9 @@ protected function createToken($user)
 }
 ```
 
-Satellizer can parse the token to find out if it's still valid (you can't invalidate it, it just expires). Unfortunately there isn't an option to refresh a token yet in Satellizer, but you could probably built it yourself. Otherwiser the users just gets logged out after a year.
+Satellizer can parse the token to find out if it's still valid (you can't invalidate it, it just expires). Unfortunately there isn't an option to refresh a token yet in Satellizer, but you could probably build it yourself. Otherwise the users just gets logged out after a year.
 
-Satellizer sends the token in the Authorization headers, so we can verify this. We'll create an middleware for this. We're doing it a bit different than [the example](https://github.com/sahat/satellizer/blob/8b8ca04f6de3278205edfbc763df2d86a3f9254c/examples/server/php/app/Http/Middleware/Authenticate.php) (again):
+Satellizer sends the token in the Authorization header, so we can verify this. We'll create an middleware for this. We're doing it a bit different than [the example](https://github.com/sahat/satellizer/blob/8b8ca04f6de3278205edfbc763df2d86a3f9254c/examples/server/php/app/Http/Middleware/Authenticate.php) (again):
 
 ```php
 public function handle($request, Closure $next)
@@ -238,7 +247,7 @@ public function handle($request, Closure $next)
 
 So we're logging this user in for just his one request (we're not using a session, remember). That means we can use `Auth::check()` and `Auth::user()` in our code. No need for different JWT/Auth libraries, just our checks as usual. You can still combine this middleware with the normal `auth` middleware.
 
-So this is pretty much all that's needed to get your Angular app to play nice with Lumen (or Laravel, which is pretty much exactly the same). If you have any improvements or tips, feel free to open an issue/pull request on https://github.com/barryvdh/barryvdh.github.io
+So this is pretty much all that's needed to get your Angular app to play nice with Lumen (or Laravel, which is pretty much exactly the same). If you have any improvements or tips, feel free to open an issue/pull request on [barryvdh/barryvdh.github.io](https://github.com/barryvdh/barryvdh.github.io)
 
 ## Some gotcha's 
 
