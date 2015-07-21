@@ -259,6 +259,6 @@ RewriteCond %{HTTP:Authorization} ^(.+)$
 RewriteRule .* - [E=HTTP_AUTHORIZATION:%{HTTP:Authorization}]
 ```
 
-- If you're using a different domain, you'll need to configure your CORS headers. Try https://github.com/barryvdh/laravel-cors
+- If you're using a different domain, you'll need to configure your CORS headers. Try [barryvdh/laravel-cors](https://github.com/barryvdh/laravel-cors)
  
  
