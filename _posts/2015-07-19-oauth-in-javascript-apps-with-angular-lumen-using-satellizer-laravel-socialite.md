@@ -15,7 +15,7 @@ As I said, a lot has been written about Socialite. So I'm going to assume you ha
  - [Laravel Docs - Social Authentication](http://laravel.com/docs/5.1/authentication#social-authentication)
  - [Using Github Authentication for login with Laravel Socalite by Matt Stauffer](https://mattstauffer.co/blog/using-github-authentication-for-login-with-laravel-socialite)
  
-And off course some basis Angular knowledge would come in handy when you're building an Angular app. So we're also not covering installing Satellizer, but you can grab [the example from the Github repo here](https://github.com/sahat/satellizer/tree/master/examples/client).
+And off course some basic Angular knowledge would come in handy when you're building an Angular app. So we're also not covering installing Satellizer, but you can grab [the example from the Github repo here](https://github.com/sahat/satellizer/tree/master/examples/client).
 
 ## Tools
 
