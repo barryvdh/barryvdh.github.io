@@ -45,6 +45,7 @@ From [the site](http://twig.sensiolabs.org/):
 
 Example:
 {% highlight %}
+{% raw  %}
 {% extends "layouts.master" %}
 
 {% block content %}
@@ -52,6 +53,7 @@ Example:
         <p>This is user {{ user.id }}</p>
     {% endfor %}
 {% endblock %}
+{% endraw  %}
 {% endhighlight %}
 
 Twig is sandboxed. You can't just use any PHP function by default, you can't access things outside the given context and you can't use plain PHP in your templates. This is done by design, it forces you to seperate your business logic from your templates. 
@@ -96,11 +98,13 @@ Laravel gives you the option to change the tags and Twig gives you the option to
 Besides escaped or raw, Twig gives you the option to use different escaping methods, eg. for JS or HTML attributes. This can also be configured for an entire chunk of code.
 
 {% highlight %}
+{% raw  %}
 {{ user.username|e('css') }}
 
 {% autoescape 'js' %}
     Everything will be automatically escaped in this block (using the JS strategy)
 {% endautoescape %}
+{% endraw  %}
 {% endhighlight %}
 
 You probably noticed the `|` character. Those are used for `filters`. Filters can tweak the output. They are not very much different then functions, but they might be easier to read and can be combined. Example: `{{ var | striptags | upper }}`.
@@ -142,6 +146,7 @@ Simplified example:
 In Twig, the controle structures are called `tags`. They are compiled by a Lexer and can be a bit more complicated. For example, the `for` tag adds a `loop` variable to the context, so you can access the current loop state; `loop.first`, `loop.last`, `loop.index` etc. This makes it just a bit cleaner then doing it yourself. The `if` tags makes it possible to read more like a sentence, instead of just a statement.
 
 {% highlight %}
+{% raw  %}
 {% for user in users %}
     {% if not user.subscribed %}
         {{ user.name }}
@@ -149,6 +154,7 @@ In Twig, the controle structures are called `tags`. They are compiled by a Lexer
 {% else %}
     <p>No users found</p>
 {% endfor %}
+{% endraw  %}
 {% endhighlight %}
 
 ### Template inheritance and sections
@@ -193,6 +199,7 @@ Template inheritance and sections are pretty much the same. It's just different 
 Same result in Twig:
 
 {% highlight %}
+{% raw  %}
 <!-- layouts/master.twig -->
 <html>
     <head>
@@ -208,8 +215,10 @@ Same result in Twig:
         </div>
     </body>
 </html>
+{% endraw  %}
 {% endhighlight %}
 {% highlight %}
+{% raw  %}
 <!-- child.twig -->
 {% extends "layouts.master" %}
 
@@ -223,6 +232,7 @@ Same result in Twig:
 {% block content %}
 <p>This is my body content.</p>
 {% endblock %}
+{% endraw  %}
 {% endhighlight %}
 
 ### Security and context
@@ -242,9 +252,11 @@ Blade
 This isn't exactly possible in Twig. You either pass the result to the view (in your controller or view composer), or if you must, call the query on a User instance.
 
 {% highlight %}
+{% raw  %}
 {% for user in model.where('active').get() %}
   {{ user.name }}
 {% endfor %}
+{% endraw  %}
 {% endhighlight %}
 
 This also means that you can't just use Facades. In your TwigBridge, we've made it an option to just add your facades to the list in the configuration. `Auth::check()` --> `Auth.check()`
