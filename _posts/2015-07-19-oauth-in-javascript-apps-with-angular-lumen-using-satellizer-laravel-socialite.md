@@ -75,6 +75,7 @@ This is actually much easier than it looks, because Satellizer and Socialite do 
 So how do we use Socialite to get the profile? Satellizer already has [an example using Laravel](https://github.com/sahat/satellizer/tree/master/examples/server/php) but it doesn't use Socialite, so it's different for each provider. For example, Github:
 
 ```php
+<?php
  /**
  * Login with GitHub.
  */
