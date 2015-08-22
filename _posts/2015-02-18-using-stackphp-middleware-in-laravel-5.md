@@ -29,6 +29,7 @@ As the quote from Matt's blog suggests, it isn't that hard to convert your Stack
 So the input is a Request, the output a Response. That hasn't changed in the new Laravel middleware. Take this basic example with the HttpKernelInterface
 
 ```php
+<?php
 public function handle(SymfonyRequest $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
 {
     // Do something with $request
@@ -41,6 +42,7 @@ public function handle(SymfonyRequest $request, $type = HttpKernelInterface::MAS
 And convert it to Laravel Middleware:
 
 ```php
+<?php
 public function handle($request, Closure $next)
 {
     // Do something with $request
@@ -57,6 +59,7 @@ So sure, it's possible to convert your middleware. And that is probably the easi
 Obviously, the two interfaces are conflicting. Both use the `handle()` method but with different arguments. So we could create a Laravel middleware that wraps the Stack middleware and calls its `handle()` method with the correct arguments.
 
 ```php
+<?php
 public function handle($request, Closure $next)
 {
     return $this->middleware->handle($request);
@@ -66,6 +69,7 @@ public function handle($request, Closure $next)
 But any Stack middleware needs a HttpKernel as first constructor argument (by convention), so what do we pass as kernel? The Laravel Application class still implements the HttpKernelInterface, but that just calls the middleware stack so that will crash your application. So we also need to create a wrapper for the HttpKernelInterface. And that wrapper needs to be able to call the `$next` closure.
 
 ```php
+<?php
 public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQUEST, $catch = true)
 {
     $next = ??;
@@ -78,6 +82,7 @@ public function handle(Request $request, $type = HttpKernelInterface::MASTER_REQ
 So, to solve the chicken-egg question, I created two wrappers. The [ClosureMiddleware](https://github.com/barryvdh/laravel-stack-middleware/blob/master/src/ClosureMiddleware.php) that receives the `$next` closure and passes it to the  [ClosureHttpKernel](https://github.com/barryvdh/laravel-stack-middleware/blob/master/src/ClosureHttpKernel.php). The Kernel then receives the `$request` on its `handle()` method and calls the `$next` closure it just received. So we just do something like this:
 
 ```php
+<?php
 // ClosureMiddleware
 public function handle($request, Closure $next) {
     $this->kernel->setClosure($next);
@@ -101,6 +106,7 @@ It's still pretty new and not very well tested, but it does seem to do its job. 
 The readme explains more, but the previous example would become:
 
 ```php
+<?php
 public function boot(StackMiddleware $stack) {
     $stack->bind('DoSomeMiddlewareStuff', 'Some\Stack\Middleware', [$param1, $param2]);
 }
