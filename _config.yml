@@ -33,7 +33,7 @@ flattr_button:
 # Build settings
 highlighter:  pygments
 pygments:
-  options: ['startinline']
+  options:    ['startinline']
 markdown:     redcarpet
 redcarpet:
   extensions: ['smart', 'tables', 'with_toc_data']
