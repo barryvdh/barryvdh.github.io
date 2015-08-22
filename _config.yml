@@ -31,8 +31,9 @@ paypal_url:
 flattr_button:
 
 # Build settings
-highlighter:  pygments
-markdown:     redcarpet
+markdown:     kramdown
+redcarpet:
+  extensions: ['smart', 'tables', 'with_toc_data']
 permalink:    pretty
 paginate:     5
 sass:
