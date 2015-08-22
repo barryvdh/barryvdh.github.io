@@ -59,8 +59,9 @@ Twig is sandboxed. You can't just use any PHP function by default, you can't acc
 
 ## Twig in Laravel
 
-Together wit Rob Crowe, I've built a TwigBridge: https://github.com/rcrowe/TwigBridge
+Together wit Rob Crowe, I've built a TwigBridge: [rcrowe/twigbridge](https://github.com/rcrowe/TwigBridge)
 This offers Twig support in Laravel with all the things you would expect in Laravel: 
+
  - Loading view using the Laravel View factory (`view('template')`)
  - Using events for View Composers
  - Access to common functions/filters (input, auth, session etc)
