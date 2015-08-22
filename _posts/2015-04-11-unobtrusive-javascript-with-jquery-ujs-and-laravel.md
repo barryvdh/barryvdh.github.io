@@ -95,6 +95,7 @@ With jquery-ujs it's easy to replace the form with a link, but you can also remo
 In the controller action (`destroy()` in the case of RESTful resourceful controllers), we can check if it was a regular request or a Ajax request and respond differently.
 
 ```php
+<?php
 public function destroy(Request $request, $id) {
    if ($request->ajax()) {
        return $id;
