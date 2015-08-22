@@ -27,6 +27,7 @@ A common solution is to add a CSRF token to our form, which is generated on each
 In Laravel 4.0, there was a pre-defined CSRF filter in your app/filters.php that looked like this:
 
 ```php
+<?php
 Route::filter('csrf', function() {
 	if (Session::token() != Input::get('_token')) {
 		throw new Illuminate\Session\TokenMismatchException;
@@ -46,6 +47,7 @@ Because of the weak-typing and using `json_decode()` for JSON requests, you coul
 While a timing attack for CSRF tokens is probably more theoretical, it would be possible for attackers to guess the token by repeating the same request many times and comparing the time it takes to return. Because a regular string comparison stops when it finds a character that doesn't match, you could find a difference between different tokens. Very simplified example:
 
 ```php
+<?php
 $token = 'abcdef';
 $token === 'abaaaa'; // 1ms
 $token === 'abbaaa'; // 1ms
@@ -55,6 +57,7 @@ $token === 'abcaaa'; // 2ms, takes longer so 'abc' probably matches.
 You can find more information in the [PHP RFC for timing attacks](https://wiki.php.net/rfc/timing_attack) which added the `hash_equals()` method in PHP5.6. Symfony Security Core provides a pure PHP alternative with [StringUtils::equals()](https://github.com/symfony/security-core/blob/a2403347bc6f25a2b06c4ffc6977175371b2e302/Util/StringUtils.php#L28-L65)
 
 ```php
+<?php
 use Symfony\Component\Security\Core\Util\StringUtils;
 Route::filter('csrf', function() {
 	if ( ! StringUtils::equals(Session::token(), Input::get('_token')))
@@ -96,6 +99,7 @@ While this does work great for Angular, it has a slight problem: Because the coo
 In Laravel 5.0.6, [a patch landed](https://github.com/laravel/framework/pull/7528) which added support for a plain text `X-CSRF-TOKEN` header.
 
 ```php
+<?php
 protected function tokensMatch($request) {
     $token = $request->input('_token') ?: $request->header('X-CSRF-TOKEN');
     if ( ! $token && $header = $request->header('X-XSRF-TOKEN'))
