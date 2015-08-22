@@ -91,7 +91,7 @@ We'll take a quick look through these differences, so you can choose yourself wh
 
 ### Outputting variables
 
-Outputting variables is probably the most common thing in your templates, so it should be easy. But more importantly, it should be safe. Luckily, since Laravel 5 Blade has sane defaults: `{{ $var }}` shows escaped content, `{!! $var !!}` raw output. The same goes for Twig, by default `{{ var }}` is escaped, `{{ var |raw }}` is raw.
+{% raw %} Outputting variables is probably the most common thing in your templates, so it should be easy. But more importantly, it should be safe. Luckily, since Laravel 5 Blade has sane defaults: {{ $var }} shows escaped content, {!! $var !!} raw output. The same goes for Twig, by default {{ var }} is escaped, {{ var |raw }} is raw. {% endraw %}
 
 Laravel gives you the option to change the tags and Twig gives you the option to change the default escaping. Both are probably not very smart in most cases, because it can be unpredictable for other developers.
 
@@ -105,7 +105,7 @@ Besides escaped or raw, Twig gives you the option to use different escaping meth
 {% endautoescape %}
 {% endraw %}{% endhighlight %}
 
-You probably noticed the `|` character. Those are used for `filters`. Filters can tweak the output. They are not very much different then functions, but they might be easier to read and can be combined. Example: `{{ var | striptags | upper }}`.
+You probably noticed the `|` character. Those are used for `filters`. Filters can tweak the output. They are not very much different then functions, but they might be easier to read and can be combined. Example: `{% raw %}{{ var | striptags | upper }} {% endraw %}`.
 
 ### Accessing attributes
 
