@@ -6,16 +6,16 @@ excerpt:    In my company, we use Twig instead of Blade for our Laravel projects
 categories: laravel twig
 ---
 
-In my company, we use Twig instead of Blade for our Laravel projects. I know there are a lot of developers that also prefer Twig over Blade. So the question 'Why choose Twig over Blade?' often pops up. The reason is usually just a matter of preference, but in this post we're going to compare the Blade and Twig templating systems. 
+In my company, we use Twig instead of Blade for our Laravel projects. I know there are a lot of developers that also prefer Twig over Blade. So the question _'Why choose Twig over Blade?'_ often pops up. The reason is usually just a matter of preference, but in this post we're going to compare the Blade and Twig templating engines side-by-side. 
 
 ## TLDR; Spoiler alert
 Both Blade and Twig provide the most important features; template inheritance, sections, escaping output and clean syntax.
-Blade provides a fast and simple syntax, but doesn't add (much) extra functionality.
-Twig takes it a step further and adds an extra layer to provide more security and added features.
+**Blade** provides a fast and simple syntax, but doesn't add (much) extra functionality.
+**Twig** takes it a step further and adds an extra layer to provide more security and added features.
 The choice mostly depends on your personal preference. If you mostly develop for Laravel, Blade would probably be good. If you also use a lot of other frameworks, Twig might be a better fit.
 
 ## About Blade
-Blade is the default template engine for Laravel (since Laravel 2 in 2011), so I'm assuming you know about it. The syntax is originally inspired by the [ASP.net Razor syntax](http://www.asp.net/web-pages/overview/getting-started/introducing-razor-syntax-(c)) and provides a cleaner way to write your templates. But the syntax is just 1 part, the main benefit of using Blade instead plain PHP is to make it easier to re-use templates and split templates.
+Blade is the default template engine for Laravel (since Laravel 2 in 2011). The syntax is originally inspired by the [ASP.net Razor syntax](http://www.asp.net/web-pages/overview/getting-started/introducing-razor-syntax-(c)) and provides a cleaner way to write your templates. But the syntax is just 1 part, the main benefit of using Blade instead of plain PHP is to make it easier to re-use templates and split templates.
 
 From [the Laravel 5.1 docs](http://laravel.com/docs/5.1/blade):
 > Blade is the simple, yet powerful templating engine provided with Laravel. Unlike other popular PHP templating engines, Blade does not restrict you from using plain PHP code in your views. All Blade views are compiled into plain PHP code and cached until they are modified, meaning Blade adds essentially zero overhead to your application.
@@ -37,7 +37,7 @@ Example:
 Basically, Blade syntax is a thin wrapper for PHP, to provide a clean syntax. Everything you can do with PHP, you can do with Blade (and vice versa). You can also easily mix plain PHP in your Blade templates.
 
 ## About Twig
-Twig is created by Fabien Potiencer, for reasons he describes in his [blogpost announcing Twig](http://fabien.potencier.org/templating-engines-in-php.html). It's included in the default Symfony2 installation, can be used stand-alone and recently has seen some adoptions in other projects. [Drupal 8 will use Twig as template engine](https://www.drupal.org/theme-guide/8/twig) and Magento 2 was going to use it, but [decided to drop it](https://github.com/magento/magento2/issues/370) a while back. Twig support was also considered to be added in Laravel by default, but was eventually removed before the final release.
+Twig is developed by Fabien Potiencer, for reasons he describes in his [blogpost announcing Twig](http://fabien.potencier.org/templating-engines-in-php.html). It's included in the default Symfony2 installation, can be used stand-alone and a lot of other projects support Twig. [Drupal 8 will use Twig as template engine](https://www.drupal.org/theme-guide/8/twig) and Magento 2 was going to use it, but [decided to drop it](https://github.com/magento/magento2/issues/370) a while back. Twig support was also considered to be added in Laravel by default, but was eventually removed before the final release.
 
 From [the site](http://twig.sensiolabs.org/):
 > * **Fast**: Twig compiles templates down to plain optimized PHP code. The overhead compared to regular PHP code was reduced to the very minimum.
@@ -232,7 +232,7 @@ Same result in Twig:
 
 ### Security and context
 
-As stated before, Blade doesn't actually differ so much from 'plain php'. It makes it easier to properly escape variables, but it doesn't place any restrictions.
+As stated before, Blade doesn't actually differ so much from plain PHP. It makes it easier to properly escape variables, but it doesn't place any restrictions.
 Twig on the other hand, works in a seperate context. All functions and filters calls are restricted by the functions you explicitly enable (besides the built in functions).
 
 Both have their pros and cons. In Twig, your template designer can't easily take shortcuts. Eg. calling a query in your templates. They'll have to pass the result to the view or allow access to a certain function (or ask the backend developer). The downside is that it is more work to just call a simple function/filter sometimes.
