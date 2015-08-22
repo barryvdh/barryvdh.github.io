@@ -6,6 +6,7 @@ excerpt:    In my company, we use Twig instead of Blade for our Laravel projects
 categories: laravel twig
 ---
 
+{% raw %}
 In my company, we use Twig instead of Blade for our Laravel projects. I know there are a lot of developers that also prefer Twig over Blade. So the question 'Why choose Twig over Blade?' often pops up. The reason is usually just a matter of preference, but in this post we're going to compare the Blade and Twig templating systems. 
 
 ## TLDR; Spoiler alert
@@ -291,3 +292,4 @@ Blade is just a bit simpler, but probably good enough for most developers. It do
 
 However, if your company also uses different frameworks (Symfony, Drupal, Slim, Yii, Kohana, etc), the Twig support could be a big PRO. Mostly it's just a matter of preference. You can build any app you like with both templating engines and probably never run into any issues.
 
+{% endraw %}
