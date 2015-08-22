@@ -52,7 +52,7 @@ Example:
         <p>This is user {{ user.id }}</p>
     {% endfor %}
 {% endblock %}
-{% endhighlight  %}{% endraw %}
+{% endraw %}{% endhighlight %}
 
 Twig is sandboxed. You can't just use any PHP function by default, you can't access things outside the given context and you can't use plain PHP in your templates. This is done by design, it forces you to seperate your business logic from your templates. 
 
@@ -101,7 +101,7 @@ Besides escaped or raw, Twig gives you the option to use different escaping meth
 {% autoescape 'js' %}
     Everything will be automatically escaped in this block (using the JS strategy)
 {% endautoescape %}
-{% endhighlight  %}{% endraw %}
+{% endraw %}{% endhighlight %}
 
 You probably noticed the `|` character. Those are used for `filters`. Filters can tweak the output. They are not very much different then functions, but they might be easier to read and can be combined. Example: `{{ var | striptags | upper }}`.
 
@@ -149,7 +149,7 @@ In Twig, the controle structures are called `tags`. They are compiled by a Lexer
 {% else %}
     <p>No users found</p>
 {% endfor %}
-{% endhighlight  %}{% endraw %}
+{% endraw %}{% endhighlight %}
 
 ### Template inheritance and sections
 
@@ -208,7 +208,7 @@ Same result in Twig:
         </div>
     </body>
 </html>
-{% endhighlight  %}{% endraw %}
+{% endraw %}{% endhighlight %}
 
 {% highlight jinja %}{% raw %}
 <!-- child.twig -->
@@ -224,7 +224,7 @@ Same result in Twig:
 {% block content %}
 <p>This is my body content.</p>
 {% endblock %}
-{% endhighlight  %}{% endraw %}
+{% endraw %}{% endhighlight %}
 
 ### Security and context
 
@@ -246,7 +246,7 @@ This isn't exactly possible in Twig. You either pass the result to the view (in 
 {% for user in model.where('active').get() %}
   {{ user.name }}
 {% endfor %}
-{% endhighlight  %}{% endraw %}
+{% endraw %}{% endhighlight %}
 
 This also means that you can't just use Facades. In your TwigBridge, we've made it an option to just add your facades to the list in the configuration. `Auth::check()` --> `Auth.check()`
 
