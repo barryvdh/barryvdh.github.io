@@ -155,6 +155,7 @@ So yeah, not very pretty when we have many providers. But we can see what it doe
 How can we do this with Socialite? The first 2 steps can be done by Socialite directly. We just need to set the correct redirectUri, as provided by the Request from Satellizer. We also setting it to be stateless, because we're not using the Session for the API.
 
 ```php
+<?php
     if ($request->has('redirectUri')) {
         config()->set("services.{$name}.redirect", $request->get('redirectUri'));
     }
@@ -173,6 +174,7 @@ The third step is pretty much the same, but we can use the standardized `$profil
 For OAuth1, the flow is a bit different. And I must say I'm not really happy with this, but just going to leave it at this anyway.
 
 ```php
+<?php
 // Part 1 of 2: Initial request from Satellizer.
 if ( ! $request->input('oauth_token') || ! $request->input('oauth_verifier')) {
     // Redirect to fill the session (without actually redirecting)
@@ -206,6 +208,7 @@ So, as you see in the example, we're calling `$this->createToken($user)` to crea
 It's actually pretty simple, something like this:
 
 ```php
+<?php
 /**
  * Generate JSON Web Token.
  * @param  User  $user
@@ -228,6 +231,7 @@ Satellizer can parse the token to find out if it's still valid (you can't invali
 Satellizer sends the token in the Authorization header, so we can verify this. We'll create an middleware for this. We're doing it a bit different than [the example](https://github.com/sahat/satellizer/blob/8b8ca04f6de3278205edfbc763df2d86a3f9254c/examples/server/php/app/Http/Middleware/Authenticate.php) (again):
 
 ```php
+<?php
 public function handle($request, Closure $next)
 {
     if ($request->header('Authorization')) {
