@@ -23,6 +23,7 @@ From [the Laravel 5.1 docs](http://laravel.com/docs/5.1/blade):
 > Two of the primary benefits of using Blade are template inheritance and sections. 
 
 Example:
+
 ```
 @extends('layouts.master')
 
@@ -119,6 +120,7 @@ $user['name'] --> user.name
 In Blade, most control structures are simply replaced by their PHP equivalent during compilation, as you can see in [the code](https://github.com/laravel/framework/blob/5.1/src/Illuminate/View/Compilers/BladeCompiler.php). Some structures are a tiny bit more complicated. `forelse` doesn't actually exist, so that adds a few more lines.
 
 Simplified example:
+
 ```php
 @forelse ($user in $user)
     @if(!$user->subscribed)
@@ -173,6 +175,7 @@ Template inheritance and sections are pretty much the same. It's just different 
 </html>
 
 ```
+
 ```
 <!-- child.blade.php -->
 @extends('layouts.master')
@@ -234,6 +237,7 @@ Twig on the other hand, works in a seperate context. All functions and filters c
 Both have their pros and cons. In Twig, your template designer can't easily take shortcuts. Eg. calling a query in your templates. They'll have to pass the result to the view or allow access to a certain function (or ask the backend developer). The downside is that it is more work to just call a simple function/filter sometimes.
 
 Blade
+
 ```
 @foreach(User::where('active')->get() as $user)
   {{ $user->name }}
