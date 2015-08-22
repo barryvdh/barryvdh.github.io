@@ -32,7 +32,7 @@ flattr_button:
 
 # Build settings
 highlighter:  pygments
-markdown:     kramdown
+markdown:     redcarpet
 redcarpet:
   extensions: ['smart', 'tables', 'with_toc_data']
 permalink:    pretty
