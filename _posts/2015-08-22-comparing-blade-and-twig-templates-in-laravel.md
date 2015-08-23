@@ -291,8 +291,11 @@ There are some small syntaxical and behavioral differences, that probably don't 
 
 ## So ..?
 
-In my personal opinion, Twig is the more mature one. It's built from the ground up as secure, with different escaping strategies, context restrictions and lexer. But sometimes it can feel a bit too restrictive, for rapid development.
+Mostly it's just a matter of preference. You can build any app you like with both templating engines and probably never run into any issues.
 
 Blade is just a bit simpler, but probably good enough for most developers. It doesn't impose any restrictions, so it leaves the best practices up to the developer. It does feel more 'Laravel' like in it's simplicity, so that might appeal to new Laravel users.
 
-However, if your company also uses different frameworks (Symfony, Drupal, Slim, Yii, Kohana, etc), the Twig support could be a big PRO. Mostly it's just a matter of preference. You can build any app you like with both templating engines and probably never run into any issues.
+Twig is (in my opinion) the more mature one. It's built from the ground up as secure, with different escaping strategies, context restrictions and lexer. But sometimes it can feel a bit too restrictive, for rapid development. In mixed teams (frontend + backend) or with not so experienced developers, this can be a good thing to prevent spaghetti code. But if you must, you can ofcourse still write bad code..
+If your company also uses different frameworks (Symfony, Drupal, Slim, Yii, Kohana, etc), the Twig support could be a big PRO. 
+
+If you never used Twig, I suggest you give it a try. It's easy to setup on Laravel and the documentation is very extensive!
