@@ -1,43 +1,86 @@
-# Site settings
-title:       Barry vd. Heuvel
-email:       barryvdh@gmail.com
-author:      Barry vd. Heuvel
-description: "My personal blog about PHP, Laravel and other coding stuff."
-baseurl:     ""
-url:         "http://barryvdh.nl"
+#
+# This file contains configuration flags to customize your site
+#
 
-# Google analytics
+# Name of your site (displayed in the header)
+name: Barry vd. Heuvel
+
+# Short bio or description (displayed in the header)
+description: My personal blog about PHP, Laravel and other coding stuff.
+
+# URL of your avatar or profile pic (you could use your GitHub profile pic)
+avatar: https://avatars2.githubusercontent.com/u/973269?s=400
+
+#
+# Flags below are optional
+#
+
+# Includes an icon in the footer for each username you enter
+footer-links:
+  dribbble:
+  email: barryvdh@gmail.com
+  facebook:
+  flickr:
+  github: barryvdh
+  instagram:
+  linkedin:
+  pinterest:
+  rss: # just type anything here for a working RSS icon
+  twitter: barryvdh
+  stackoverflow: # your stackoverflow profile, e.g. "users/50476/bart-kiers"
+  youtube: # channel/<your_long_string> or user/<user-name>
+  googleplus: # anything in your profile username that comes after plus.google.com/
+
+
+# Enter your Disqus shortname (not your username) to enable commenting on posts
+# You can find your shortname on the Settings page of your Disqus account
+disqus:
+
+# Enter your Google Analytics web tracking code (e.g. UA-2110908-2) to activate tracking
 google_analytics: UA-9001667-40
 
-# Optional features
-animated:           false
-show_related_posts: false
-show_post_footers:  true
-show_post_share:    true
-show_social_icons:  true
+# Your website URL (e.g. http://barryclark.github.io or http://www.barryclark.co)
+# Used for Sitemap.xml and your RSS feed
+url: http://barryvdh.github.io
 
-# Disqus post comments
-# (leave blank to disable Disqus)
-disqus_shortname:
+# If you're hosting your site at a Project repository on GitHub pages
+# (http://yourusername.github.io/repository-name)
+# and NOT your User repository (http://yourusername.github.io)
+# then add in the baseurl here, like this: "/repository-name"
+baseurl: ""
 
-# Social icons
-github_username: barryvdh
-stackoverflow_id: 444215
-twitter_username: barryvdh
-google_plus_id: 112895705561647874795
-linkedin_username: barryvdheuvel
-bitcoin_url:
-paypal_url:
-flattr_button:
+#
+# !! You don't need to change any of the configuration flags below !!
+#
 
-# Build settings
-highlighter:  pygments
-markdown:     redcarpet
-redcarpet:
-  extensions: ['smart', 'tables', 'with_toc_data']
-permalink:    pretty
-paginate:     15
+permalink: /:title/
+
+# The release of Jekyll Now that you're using
+version: v1.2.0
+
+# Jekyll 3 now only supports Kramdown for Markdown
+kramdown:
+  # Use GitHub flavored markdown, including triple backtick fenced code blocks
+  input: GFM
+  # Jekyll 3 and GitHub Pages now only support rouge for syntax highlighting
+  syntax_highlighter: rouge
+  syntax_highlighter_opts:
+    # Use existing pygments syntax highlighting css
+    css_class: 'highlight'
+
+# Set the Sass partials directory, as we're using @imports
 sass:
-  compressed: true
+  style: :expanded # You might prefer to minify using :compressed
+
+# Use the following plug-ins
 gems:
-  - jekyll-sitemap
+  - jekyll-sitemap # Create a sitemap using the official Jekyll sitemap gem
+  - jekyll-feed # Create an Atom feed using the official Jekyll feed gem
+
+# Exclude these files from your production _site
+exclude:
+  - Gemfile
+  - Gemfile.lock
+  - LICENSE
+  - README.md
+  - CNAME
