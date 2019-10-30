@@ -1,7 +1,7 @@
 ---
 layout: page
 title: About me
-permalink: /about/
+subtitle: My name is Barry vd. Heuvel
 ---
 
 ### My name is Barry vd. Heuvel
