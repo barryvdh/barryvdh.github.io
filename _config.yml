@@ -24,7 +24,7 @@ navbar-links:
   Resources:
     - Fruitcake: "https://fruitcake.nl/"
     - Github Profile: "https://github.com/barryvdh"
-  Author's home: "http://barryvdh.nl"
+  Blog: "/"
 
 # Image to show in the navigation bar - image must be a square (width = height)
 # Remove this parameter if you don't want an image in the navbar
@@ -73,7 +73,7 @@ social-network-links:
   github: barryvdh
   twitter: barryvdh
 #  reddit: yourname
-  linkedin: barryvdh
+  linkedin: barryvdheuvel
 #  xing: yourname
 #  stackoverflow: "3943160/daattali"
 #  snapchat: deanat78
@@ -87,9 +87,9 @@ social-network-links:
 
 # Select which share links to show in posts
 share-links-active:
-  twitter: true
-  facebook: true
-  linkedin: true
+  twitter: false
+  facebook: false
+  linkedin: false
 
 # How to display the link to the website in the footer
 # Remove this if you don't want a link in the footer
