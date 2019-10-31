@@ -157,10 +157,13 @@ date_format: "%B %-d, %Y"
 
 # Output options (more information on Jekyll's site)
 timezone: "America/Vancouver"
-markdown: kramdown
-highlighter: rouge
-permalink: /:year-:month-:day-:title/
-paginate: 5
+markdown: redcarpet
+highlighter: pygments
+permalink: pretty
+paginate: 10
+
+redcarpet:
+  extensions: ['smart', 'tables', 'with_toc_data']
 
 kramdown:
   input: GFM
