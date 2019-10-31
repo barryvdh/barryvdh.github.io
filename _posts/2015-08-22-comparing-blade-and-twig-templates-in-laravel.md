@@ -91,7 +91,7 @@ We'll take a quick look through these differences, so you can choose yourself wh
 
 ### Outputting variables
 
-{% raw %} Outputting variables is probably the most common thing in your templates, so it should be easy. But more importantly, it should be safe. Luckily, since Laravel 5 Blade has sane defaults: {{ $var }} shows escaped content, {!! $var !!} raw output. The same goes for Twig, by default {{ var }} is escaped, {{ var |raw }} is raw. {% endraw %}
+Outputting variables is probably the most common thing in your templates, so it should be easy. But more importantly, it should be safe. Luckily, since Laravel 5 Blade has sane defaults: {{ $var }} shows escaped content, {!! $var !!} raw output. The same goes for Twig, by default {{ var }} is escaped, {{ var |raw }} is raw.
 
 Laravel gives you the option to change the tags and Twig gives you the option to change the default escaping. Both are probably not very smart in most cases, because it can be unpredictable for other developers.
 
