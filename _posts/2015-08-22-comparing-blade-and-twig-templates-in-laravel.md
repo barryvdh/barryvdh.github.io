@@ -14,6 +14,9 @@ Both Blade and Twig provide the most important features; template inheritance, s
 **Twig** takes it a step further and adds an extra layer to provide more security and added features.
 The choice mostly depends on your personal preference. If you mostly develop for Laravel, Blade would probably be good. If you also use a lot of other frameworks, Twig might be a better fit.
 
+## Update November 2019
+Blade has received a lot of updates since writing this post 4 years ago. Some differences remain, but the biggest reason to choose Twig over Blade would be that you/your company has more experience in Twig (because of other frameworks). If you are using mostly Laravel, I would stick with Blade.
+
 ## About Blade
 Blade is the default template engine for Laravel (since Laravel 2 in 2011). The syntax is originally inspired by the [ASP.net Razor syntax](http://www.asp.net/web-pages/overview/getting-started/introducing-razor-syntax-(c)) and provides a cleaner way to write your templates. But the syntax is just 1 part, the main benefit of using Blade instead of plain PHP is to make it easier to re-use templates and split templates.
 
