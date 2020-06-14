@@ -38,3 +38,32 @@ When Laravel 4 came around the corner, it was pretty great with Composer support
  
  (telescope toolbar)
  
+ ## Technology differences
+ 
+Laravel Debugbar uses Collectors to gather data during the request cycle. At the end of the request, all data is collected, formatted and stored (usually in the storage dir, but DB can be used). For normal requests, the data is then flashed in the session and rendered on the next requests. For ajax requests the ID is passed in the headers and loaded through an EventListener on XHR requests. All gathered data is loaded and formatted directly by the Debugbar, which can cause delays for large datasets (eg. 1000+ queries). This usually isn't a big problem, but more of an indicator that you should optimize ;)
+3rd party libraries are used (Font Awesome, Highlight.js, jQuery), but these are scoped to avoid interference.
+
+Telescope Toolbar only displays data that is already gathered by Telescope. The data is always loaded async, after the page has loaded, for both normal and ajax requests. No external dependancies are used to prevent library collissions, just plain Javascript and SVG icons. The Toolbar content is rendered by PHP (Blade templates), so it doesn't free your browser when displaying a lot of data (that much), and it's easier to show just the summary and redirect to Telescope for the rest.
+
+In short; Debugbar is both the toolbar and the detailed info, Telescope Toolbar is just the toolbar and leverages Telescope for the rest.
+
+Debugbar:
+ - More information directly visible
+ - More browser heavy
+ 
+Telescope Toolbar
+ - Less browser heavy
+ - Need to click through for more information.
+ 
+ ### Features
+  
+ ## Debugging Queries
+ 
+ ## Showing Ajax Requests
+ 
+ ## Timeline
+ 
+ ## Dumping data
+ 
+ 
+ 
