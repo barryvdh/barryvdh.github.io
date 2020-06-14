@@ -57,7 +57,7 @@ Laravel Debugbar uses Collectors to gather data during the request cycle. At the
 
 ![Debugbar Dependencies](/img/posts/debugbar-telescopetoolbar/debugbar_deps.png)
 
-Telescope Toolbar only displays data that is already gathered by Telescope. The data is always loaded async, after the page has loaded, for both normal and ajax requests. No external dependancies are used to prevent library collisions, just plain Javascript and SVG icons. The Toolbar content is rendered by PHP (Blade templates), so it doesn't free your browser when displaying a lot of data (that much), and it's easier to show just the summary and redirect to Telescope for the rest.
+Telescope Toolbar only displays data that is already gathered by Telescope. The data is always loaded async, after the page has loaded, for both normal and ajax requests. No external dependancies are used to prevent library collisions, just plain Javascript and SVG icons. The Toolbar content is rendered by PHP (Blade templates), so it doesn't freeze your browser when displaying a lot of data (that much), and it's easier to show just the summary and redirect to Telescope for the rest.
 
 In short; 
 Debugbar is both the toolbar and the detailed info, Telescope Toolbar is just the toolbar and leverages Telescope for the rest.
