@@ -16,7 +16,7 @@ Let me know if you have any improvements for Telescope Toolbar or (Laravel) Debu
 ## A little history
 
 When we started using Laravel at [Fruitcake](https://fruitcake.nl/), it was around the time of Laravel 3. It didn't have Composer support yet and was a bit limited, but did contain things like Eloquent and Blade templates.
-One of the things it also contained was a small toolbar called 'Anbu'. Not sure who created it, but it came with Laravel by default.
+One of the things it also contained was a small toolbar called 'Anbu'. I think it was created by [Dayle Rees](https://github.com/daylerees), and it came bundled with Laravel 3.
 
 ![Anbu](/img/posts/debugbar-telescopetoolbar/anbu.png)
 
