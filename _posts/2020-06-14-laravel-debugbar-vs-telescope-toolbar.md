@@ -4,7 +4,7 @@ title:      Laravel Debugbar vs. Telescope Toolbar
 date:       2020-06-14 10:00:00
 excerpt:    I developed both Telescope Toolbar and Laravel Debugbar, and many want to know the difference. Let's compare both.
 categories: laravel debugbar telescope
-share-image: /img/posts/debugbar-telescopetoolbar/poll.png
+share-img: /img/posts/debugbar-telescopetoolbar/poll.png
 ---
 
 ## TLDR;
