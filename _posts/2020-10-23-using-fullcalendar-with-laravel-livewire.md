@@ -12,10 +12,10 @@ share-img:  /img/livewire-fullcalendar.png
 We use [FullCalendar](https://fullcalendar.io/) in a lot of projects and I have yet to find anything that is as powerful and flexible for creating calendars. 
 We've used plain FullCalendar before also the Vue integration, but lately [Livewire](https://laravel-livewire.com/) has taken my interest. 
 I wanted to see if I could integrate this nicely. I'm happy with the result so far and wanted to share some of the things I encountered. 
-We don't cover the basics of creating your Livewire component, but you can read about it in the [Quickstart](https://laravel-livewire.com/docs/2.x/quickstart)
+We don't cover the basics of creating your Livewire component, but you can read about it in the [Quickstart](https://laravel-livewire.com/docs/2.x/quickstart).
 
-![FullCalendar and Laravel Livewire](/img/livewire-fullcalendar.png)
-
+[![FullCalendar and Laravel Livewire](/img/livewire-fullcalendar.png)](https://laravelplayground.com/#/snippets/062218a2-cd89-413a-b442-54b94a2056b3)
+[See the final example on Laravel Playground here.](https://laravelplayground.com/#/snippets/062218a2-cd89-413a-b442-54b94a2056b3)
 
 ## Drag & Drop
 The starting-point of my journey was the [Drag & Drop Demo](https://fullcalendar.io/docs/external-dragging-demo) ([Docs](https://fullcalendar.io/docs/external-dragging)) which shows the Javascript side. 
@@ -91,16 +91,17 @@ By default, this will load only once, at the start. But we want to trigger it fr
 });
 ```
 
-Now we can call this event from inside our component, eg. when the name changes:
+Now we can emit this event from inside our component, eg. when the name changes:
 
 ```php
- public function updatedName()
+public function updatedName()
 {
     $this->emit("refreshCalendar");
 }
 ```
 
 Now we can decide when to reload any data, and it will be dynamically using the correct name!
+
 [You can see the working example here](https://laravelplayground.com/#/snippets/062218a2-cd89-413a-b442-54b94a2056b3)
 
 ## Wrapping up
