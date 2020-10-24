@@ -14,6 +14,9 @@ We've used plain FullCalendar before also the Vue integration, but lately [Livew
 I wanted to see if I could integrate this nicely. I'm happy with the result so far and wanted to share some of the things I encountered. 
 We don't cover the basics of creating your Livewire component, but you can read about it in the [Quickstart](https://laravel-livewire.com/docs/2.x/quickstart)
 
+![FullCalendar and Laravel Livewire](/img/livewire-fullcalendar.png)
+
+
 ## Drag & Drop
 The starting-point of my journey was the [Drag & Drop Demo](https://fullcalendar.io/docs/external-dragging-demo) ([Docs](https://fullcalendar.io/docs/external-dragging)) which shows the Javascript side. 
 This is a common pattern for planning/scheduling for use; take a list of events and plan them. Of course the changes need to be stored Server Side, which is were Livewire comes in.
