@@ -12,7 +12,7 @@ share-img:  /img/livewire-fullcalendar.png
 We use [FullCalendar](https://fullcalendar.io/) in a lot of projects and I have yet to find anything that is as powerful and flexible for creating calendars. 
 We've used plain FullCalendar before also the Vue integration, but lately [Livewire](https://laravel-livewire.com/) has taken my interest. 
 I wanted to see if I could integrate this nicely. I'm happy with the result so far and wanted to share some of the things I encountered. 
-We don't cover the basics of creating your Livewire component, but you can read about it here: https://laravel-livewire.com/docs/2.x/quickstart
+We don't cover the basics of creating your Livewire component, but you can read about it in the [Quickstart](https://laravel-livewire.com/docs/2.x/quickstart)
 
 ## Drag & Drop
 The starting-point of my journey was the [Drag & Drop Demo](https://fullcalendar.io/docs/external-dragging-demo) ([Docs](https://fullcalendar.io/docs/external-dragging)) which shows the Javascript side. 
@@ -22,7 +22,7 @@ This is a common pattern for planning/scheduling for use; take a list of events 
 To start, we can use the same code from a CDN and make sure we include the initialisation of the FullCalendar scripts etc are OUTSIDE the livewire component, to make sure they render once.
 For example by using `@stack('scripts')` in your layout file and `@push('scripts')` in your component.
 
-Playground example: https://laravelplayground.com/#/snippets/e4d1ca76-6ff9-4743-af8b-ee81ef65e339
+[Playground example](https://laravelplayground.com/#/snippets/e4d1ca76-6ff9-4743-af8b-ee81ef65e339)
 
 The Calendar itself gets rendered inside the component, but we want to persist is across livewire events. So we add the `wire:ignore` attribute to our Calendar container. This will let Livewire ignore the contents.
 
@@ -32,7 +32,7 @@ The Calendar itself gets rendered inside the component, but we want to persist i
 </div>
 ```
 
-Now each time Livewire reloads, the FullCalendar is still rendered. See the Playground: https://laravelplayground.com/#/snippets/790e0206-91a2-4a2c-9394-e53f8d18dd6f
+Now each time Livewire reloads, the FullCalendar is still rendered. [See the Playground](https://laravelplayground.com/#/snippets/790e0206-91a2-4a2c-9394-e53f8d18dd6f)
 
 ## Calling actions on Events
 To store the events, we need to pass the data to the back-end. With Livewire this is super easy. We can use `@this.<myaction>` to call functions in PHP, straight from the Javascript FullCalendar events:
@@ -60,7 +60,7 @@ public function eventDrop($event, $oldEvent)
 ```
 
 The $event will contain the EventObject from FullCalendar, so you can pass an ID to match it, or supply additional data.
-Example on Playground: https://laravelplayground.com/#/snippets/80fb6377-d7ae-49b0-bd36-1ac563e52994
+[See the example on Playground](https://laravelplayground.com/#/snippets/80fb6377-d7ae-49b0-bd36-1ac563e52994)
 
 ## Refreshing the data
 One of the benefits of FulLCalendar is the Event Source API, which makes it easy to load your events from an API. 
@@ -98,7 +98,7 @@ Now we can call this event from inside our component, eg. when the name changes:
 ```
 
 Now we can decide when to reload any data, and it will be dynamically using the correct name!
-You can see the working example here: https://laravelplayground.com/#/snippets/062218a2-cd89-413a-b442-54b94a2056b3
+[You can see the working example here](https://laravelplayground.com/#/snippets/062218a2-cd89-413a-b442-54b94a2056b3)
 
 ## Wrapping up
 
