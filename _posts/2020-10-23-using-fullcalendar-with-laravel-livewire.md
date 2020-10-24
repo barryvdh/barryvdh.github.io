@@ -4,7 +4,8 @@ title:      Using FullCalendar with Laravel Livewire
 date:       2020-09-24 20:00:00
 excerpt:    Integrating FullCalendar with Laravel Livewire had some interesting points that I wanted to share.
 categories: laravel livewire fullcalendar
-#share-img: 
+share-img:  /img/livewire-fullcalendar.png
+
 ---
 
 ## Why FullCalendar?
