@@ -14,16 +14,15 @@ We've used plain FullCalendar before and also the Vue integration, but lately [L
 I wanted to see if I could integrate this nicely. I'm happy with the result so far and wanted to share some of the things I encountered. 
 We don't cover the basics of creating your Livewire component, but you can read about it in the [Quickstart](https://laravel-livewire.com/docs/2.x/quickstart). I created a [Laravel Playgrounds](https://laravelplayground.com/) for each of the steps so you can follow it and see the result in action.
 
-[![FullCalendar and Laravel Livewire](/img/livewire-fullcalendar.png)](https://laravelplayground.com/#/snippets/802a46e2-9d22-4c38-9026-9c7a2dd35393)
-[See the final example on Laravel Playground here.](https://laravelplayground.com/#/snippets/802a46e2-9d22-4c38-9026-9c7a2dd35393)
+[![FullCalendar and Laravel Livewire](/img/livewire-fullcalendar.png)](https://laravelplayground.com/#/snippets/8e785494-5a75-4c25-a92d-97ae16e71554)
+[See the final example on Laravel Playground here.](https://laravelplayground.com/#/snippets/8e785494-5a75-4c25-a92d-97ae16e71554)
 
 ## Drag & Drop
 The starting-point of my journey was the [Drag & Drop Demo](https://fullcalendar.io/docs/external-dragging-demo) ([Docs](https://fullcalendar.io/docs/external-dragging)) which shows the Javascript side. 
 This is a common pattern for planning/scheduling for use; take a list of events and plan them. Of course the changes need to be stored Server Side, which is were Livewire comes in.
 
 ## Rendering the Calendar once
-To start, we can use the same code from a CDN and make sure we include the initialisation of the FullCalendar scripts etc are OUTSIDE the livewire component, to make sure they render once.
-For example by using `@stack('scripts')` in your layout file and `@push('scripts')` in your component.
+To start, we can use the same code from a CDN and put it in a simple Livewire Component. Scripts should just run once, but you can also run the script outside of your component. For example by using `@stack('scripts')` in your layout file and `@push('scripts')` in your component as described in [Inline Code docs](https://laravel-livewire.com/docs/2.x/inline-scripts)
 
 [Playground example](https://laravelplayground.com/#/snippets/e4d1ca76-6ff9-4743-af8b-ee81ef65e339)
 
@@ -35,7 +34,7 @@ The Calendar itself gets rendered inside the component, but we want to persist i
 </div>
 ```
 
-Now each time Livewire reloads, the FullCalendar is still rendered. [See the Playground](https://laravelplayground.com/#/snippets/790e0206-91a2-4a2c-9394-e53f8d18dd6f)
+Now each time Livewire reloads, the FullCalendar is still rendered. [See the Playground](https://laravelplayground.com/#/snippets/790e0206-91a2-4a2c-9394-e53f8d18dd6f) with a Select that refreshes the view on change.
 
 ## Calling actions on Events
 To store the events, we need to pass the data to the back-end. With Livewire this is super easy. We can use `@this.<myaction>` to call functions in PHP, straight from the Javascript FullCalendar events:
@@ -69,14 +68,14 @@ The $event will contain the EventObject from FullCalendar, so you can pass an ID
 One of the benefits of FulLCalendar is the Event Source API, which makes it easy to load your events from an API. 
 The benefit from Livewire is that you can reload your data easily, but we want to use the API to optimize the Event loading when required.
 
-We can add [Dynamic Parameters to our Event Source](https://fullcalendar.io/docs/events-json-feed) to make use of the Livewire inputs if required.
+We can add [Dynamic Parameters to our Event Source](https://fullcalendar.io/docs/events-json-feed) to make use of the Livewire inputs if required. We can reference the properties with `@this.<property>` as described in the [Livewire Inline Scripts](https://laravel-livewire.com/docs/2.x/inline-scripts) docs.
 
 ```js
 calendar.addEventSource( {
   url: '/calendar/events',
   extraParams: function() { 
       return {
-          name: document.getElementById("selectName").value
+          name: @this.name
       };
   }
 });
@@ -110,7 +109,7 @@ document.addEventListener('livewire:load', function() {
 }
 ```
 
-[You can see the final working example here](https://laravelplayground.com/#/snippets/802a46e2-9d22-4c38-9026-9c7a2dd35393)
+[You can see the final working example here](https://laravelplayground.com/#/snippets/8e785494-5a75-4c25-a92d-97ae16e71554)
 
 ## Wrapping up
 
