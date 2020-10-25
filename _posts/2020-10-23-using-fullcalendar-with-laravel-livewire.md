@@ -61,7 +61,12 @@ public function eventDrop($event, $oldEvent)
 }
 ```
 
-The $event will contain the EventObject from FullCalendar, so you can pass an ID to match it, or supply additional data.
+The $event will contain the EventObject from FullCalendar, so you can pass an ID to match it, or supply additional data. You can use the `data-event` attribute on the list-item, to pass any data to the event using the `@json` directive:
+
+```html
+<div data-event='@json(['id' => uniqid(), 'title' => $task])' class='fc-event ...'>
+```
+
 [See the example on Playground](https://laravelplayground.com/#/snippets/80fb6377-d7ae-49b0-bd36-1ac563e52994)
 
 ## Refreshing the data
