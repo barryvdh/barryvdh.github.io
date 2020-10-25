@@ -114,6 +114,20 @@ document.addEventListener('livewire:load', function() {
 }
 ```
 
+And if you want to clear the 'dropped' events without an actual source when refreshing, you can use the [Loading](https://fullcalendar.io/docs/loading) callback in the Calendar options to remove those events after a refresh:
+
+```js
+loading: function(isLoading) {
+    if (!isLoading) {
+        this.getEvents().forEach(function(e){
+            if (e.source === null) {
+                e.remove();
+            }
+        });
+    }
+}
+```
+
 [You can see the final working example here](https://laravelplayground.com/#/snippets/8e785494-5a75-4c25-a92d-97ae16e71554)
 
 ## Wrapping up
