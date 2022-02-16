@@ -135,4 +135,6 @@ So you might need to install some more, but could prevent some overhead
 
 ![Clockwork](/img/posts/debugbar-telescopetoolbar/clockwork.png)
 
+You can also look into [Ray by Spatie](https://myray.app/) which outputs your debug information in a separate window, instead of a toolbar.
+
  
